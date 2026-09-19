@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum MediaType {
+  VIDEO
+  AUDIO
+}
+
+model Media {
+  id        String    @id @default(cuid())
+  title     String
+  type      MediaType
+  url       String
+  thumbnail String?
+  category  String?
+  createdAt DateTime  @default(now())
+
+  bindings KeyBinding[]
+}
+
+model KeyBinding {
+  id        String   @id @default(cuid())
+  key       String
+  mediaId   String
+
+  media     Media    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@index([key])
+}
