@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { MediaModule } from './media/media.module';
+import { BindingsModule } from './bindings/bindings.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { MediaModule } from './media/media.module';
     }),
     PrismaModule,
     MediaModule,
+    BindingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

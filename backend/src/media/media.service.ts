@@ -12,4 +12,16 @@ export class MediaService {
             },
         });
     }
+
+    async createMedia(data: {
+        title: string;
+        type: 'AUDIO' | 'VIDEO' ;
+        url: string;
+        thumbnailUrl?: string;
+        category?: string;
+    }) {
+        return this.prisma.media.create({
+            data,
+        });
+    }
 }
