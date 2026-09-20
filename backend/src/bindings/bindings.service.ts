@@ -1,11 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException ,ConflictException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class BindingsService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(private readonly prisma: PrismaService) { }
 
-    async getAllBindings(){
+    async getAllBindings() {
         return this.prisma.keyBinding.findMany({
             include: {
                 media: true,
@@ -34,7 +34,7 @@ export class BindingsService {
 
     async getRandomBinding(key: string) {
         const bindings = await this.getBindingsByKey(key);
-        
+
         const randomIndex = Math.floor(
             Math.random() * bindings.length,
         );
@@ -44,6 +44,19 @@ export class BindingsService {
 
 
     async createBinding(key: string, mediaId: string) {
+        const existingBinding = await this.prisma.keyBinding.findFirst({
+            where: {
+                key: key.toUpperCase(),
+                mediaId,
+            },
+        });
+
+        if (existingBinding) {
+            throw new ConflictException(
+                `This media is already assigned to key ${key.toUpperCase()}`,
+            );
+        }
+
         return this.prisma.keyBinding.create({
             data: {
                 key: key.toUpperCase(),
@@ -52,6 +65,12 @@ export class BindingsService {
             include: {
                 media: true,
             },
+        });
+    }
+
+    async deleteBinding(id: string) {
+        return this.prisma.keyBinding.delete({
+            where: { id },
         });
     }
 }

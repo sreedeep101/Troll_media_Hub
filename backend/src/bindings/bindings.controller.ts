@@ -1,4 +1,4 @@
-import { Controller,Get, Param, Post ,Body} from '@nestjs/common';
+import { Controller,Get, Param, Post ,Body, Delete} from '@nestjs/common';
 import { BindingsService } from './bindings.service';
 
 @Controller('bindings')
@@ -26,6 +26,11 @@ export class BindingsController {
             data.key,
             data.mediaId,
         );
+    }
+
+    @Delete(':id')
+    deleteBinding(@Param('id') id:string){
+        return this.bindingsService.deleteBinding(id);
     }
     
 }

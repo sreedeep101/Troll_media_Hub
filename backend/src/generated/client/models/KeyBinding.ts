@@ -178,13 +178,14 @@ export type KeyBindingOrderByWithRelationInput = {
 
 export type KeyBindingWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  key_mediaId?: Prisma.KeyBindingKeyMediaIdCompoundUniqueInput
   AND?: Prisma.KeyBindingWhereInput | Prisma.KeyBindingWhereInput[]
   OR?: Prisma.KeyBindingWhereInput[]
   NOT?: Prisma.KeyBindingWhereInput | Prisma.KeyBindingWhereInput[]
   key?: Prisma.StringFilter<"KeyBinding"> | string
   mediaId?: Prisma.StringFilter<"KeyBinding"> | string
   media?: Prisma.XOR<Prisma.MediaScalarRelationFilter, Prisma.MediaWhereInput>
-}, "id">
+}, "id" | "key_mediaId">
 
 export type KeyBindingOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -253,6 +254,11 @@ export type KeyBindingListRelationFilter = {
 
 export type KeyBindingOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type KeyBindingKeyMediaIdCompoundUniqueInput = {
+  key: string
+  mediaId: string
 }
 
 export type KeyBindingCountOrderByAggregateInput = {
